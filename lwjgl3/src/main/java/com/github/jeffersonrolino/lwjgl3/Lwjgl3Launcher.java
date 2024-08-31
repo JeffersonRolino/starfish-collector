@@ -2,8 +2,7 @@ package com.github.jeffersonrolino.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.github.jeffersonrolino.Main;
-import com.github.jeffersonrolino.StarfishCollectorAlpha;
+import com.github.jeffersonrolino.StarfishCollectorBeta;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
@@ -13,7 +12,7 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
-        return new Lwjgl3Application(new StarfishCollectorAlpha(), getDefaultConfiguration());
+        return new Lwjgl3Application(new StarfishCollectorBeta(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
