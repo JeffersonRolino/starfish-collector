@@ -1,27 +1,19 @@
 package com.github.jeffersonrolino;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.github.jeffersonrolino.entities.ActorBeta;
 import com.github.jeffersonrolino.entities.Turtle;
 
-public class StarfishCollectorBeta extends ApplicationAdapter {
+public class StarfishCollectorBeta extends GameBeta {
     private Turtle turtle;
     private ActorBeta starfish;
     private ActorBeta ocean;
     private ActorBeta winMessage;
 
-    private Stage mainStage;
-
     private boolean win;
 
-    public void create()
+    public void initialize()
     {
-        mainStage = new Stage();
-
         ocean = new ActorBeta();
         ocean.setTexture(new Texture("water.jpg"));
         mainStage.addActor(ocean);
@@ -45,23 +37,13 @@ public class StarfishCollectorBeta extends ApplicationAdapter {
         win = false;
     }
 
-    public void render()
+    public void update(float dt)
     {
-        // check user input
-        mainStage.act(1/60f);
-
         // check win condition: turtle must be overlapping starfish
         if(turtle.overlaps(starfish))
         {
             starfish.remove();
             winMessage.setVisible(true);
         }
-
-        // clear screen
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // draw graphics
-        mainStage.draw();
     }
 }

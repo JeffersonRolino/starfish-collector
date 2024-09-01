@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-public class GameBeta extends ApplicationAdapter {
+public abstract class GameBeta extends ApplicationAdapter {
     protected Stage mainStage;
 
     public void create()
@@ -14,9 +14,9 @@ public class GameBeta extends ApplicationAdapter {
         initialize();
     }
 
-    public void initialize() {
+    public abstract void initialize();
 
-    }
+    public abstract void update(float dt);
 
     public void render()
     {
@@ -34,9 +34,5 @@ public class GameBeta extends ApplicationAdapter {
 
         // draw the graphics
         mainStage.draw();
-    }
-
-    public void update(float dt){
-
     }
 }
