@@ -18,17 +18,25 @@ public class BaseActor extends Actor {
     private float elapsedTime;
     private boolean animationPaused;
     private Vector2 velocityVec;
+    private Vector2 accelerationVec;
+    private float acceleration;
+    private float maxSpeed;
+    private float deceleration;
 
 
     public BaseActor(float x, float y, Stage stage) {
         // Call the constructor from Actor Class
         super();
 
-        animation = null;
-        elapsedTime = 0;
-        animationPaused = false;
+        this.animation = null;
+        this.elapsedTime = 0;
+        this.animationPaused = false;
 
-        velocityVec = new Vector2(0, 0);
+        this.velocityVec = new Vector2(0, 0);
+        this.accelerationVec = new Vector2(0, 0);
+        this.acceleration = 0;
+        this.maxSpeed = 1000;
+        this.deceleration = 0;
 
         // Perform additional initialization tasks
         setPosition(x, y);
@@ -70,6 +78,26 @@ public class BaseActor extends Actor {
 
     public float getMotionAngle(){
         return velocityVec.angleDeg();
+    }
+
+    public void setAcceleration(float acceleration){
+        this.acceleration = acceleration;
+    }
+
+    public void accelerateAtAngle(float angle){
+        this.accelerationVec.add(new Vector2(acceleration, 0).setAngleDeg(angle));
+    }
+
+    public void accelerateForward(){
+        this.accelerateAtAngle(getRotation());
+    }
+
+    public void setMaxSpeed(float maxSpeed){
+        this.maxSpeed = maxSpeed;
+    }
+
+    public void setDeceleration(float deceleration){
+        this.deceleration = deceleration;
     }
 
 
