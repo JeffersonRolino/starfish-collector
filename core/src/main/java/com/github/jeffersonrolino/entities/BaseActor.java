@@ -100,6 +100,30 @@ public class BaseActor extends Actor {
         this.deceleration = deceleration;
     }
 
+    public void applyPhysics(float dt){
+        //apply acceleration
+        velocityVec.add(accelerationVec.x * dt, accelerationVec.y * dt);
+
+        float speed = getSpeed();
+
+        // decrease speed (decelerate) when not accelerating
+        if(accelerationVec.len() == 0){
+            speed -= deceleration * dt;
+        }
+
+        // keep speed within set bounds
+        speed = MathUtils.clamp(speed, 0, maxSpeed);
+
+        // update velocity
+        setSpeed(speed);
+
+        // apply velocity
+        moveBy(velocityVec.x * dt, velocityVec.y * dt);
+
+        // reset acceleration
+        accelerationVec.set(0, 0);
+    }
+
 
     public void act(float dt){
         super.act(dt);
