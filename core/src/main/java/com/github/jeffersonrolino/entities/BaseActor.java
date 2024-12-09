@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polygon;
 
 public class BaseActor extends Actor {
     private Animation<TextureRegion> animation;
@@ -22,6 +23,7 @@ public class BaseActor extends Actor {
     private float acceleration;
     private float maxSpeed;
     private float deceleration;
+    private Polygon boundaryPolygon;
 
 
     public BaseActor(float x, float y, Stage stage) {
@@ -51,6 +53,10 @@ public class BaseActor extends Actor {
         float h = textureRegion.getRegionHeight();
         setSize(w, h);
         setOrigin(w/2, h/2);
+
+        if(boundaryPolygon == null){
+            setBoundaryReactangle();
+        }
     }
 
 
@@ -222,5 +228,37 @@ public class BaseActor extends Actor {
 
     public boolean isAnimationFinished(){
         return animation.isAnimationFinished(elapsedTime);
+    }
+
+    public void setBoundaryReactangle(){
+        float w = getWidth();
+        float h = getHeight();
+        float[] vertices = {0, 0, w, 0, w, h, 0, h};
+        boundaryPolygon = new Polygon(vertices);
+    }
+
+    public void setBoundaryPolygon(int numSides){
+        float w = getWidth();
+        float h = getHeight();
+
+        float[] vertices = new float[2 * numSides];
+        for (int i = 0; i < numSides; i++) {
+            float angle = i * 6.28f / numSides;
+
+            //x-coordinate
+            vertices[2 * i] = w/2 * MathUtils.cos(angle) + w/2;
+
+            //y-coordinate
+            vertices[2 * i+1] = h/2 * MathUtils.sin(angle) + h/2;
+        }
+        boundaryPolygon = new Polygon(vertices);
+    }
+
+    public Polygon getBoundaryPolygon(){
+        boundaryPolygon.setPosition(getX(), getY());
+        boundaryPolygon.setOrigin(getOriginX(), getOriginY());
+        boundaryPolygon.setRotation(getRotation());
+        boundaryPolygon.setScale(getScaleX(), getScaleY());
+        return boundaryPolygon;
     }
 }
