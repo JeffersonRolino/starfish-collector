@@ -17,6 +17,7 @@ public class Turtle extends BaseActor {
         };
 
         loadAnimationFromFiles(fileNames, 0.1f, true);
+        setBoundaryPolygon(8);
     }
 
     public void act(float dt)
