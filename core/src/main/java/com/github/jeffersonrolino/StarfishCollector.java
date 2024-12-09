@@ -1,14 +1,12 @@
 package com.github.jeffersonrolino;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.github.jeffersonrolino.entities.BaseActor;
-import com.github.jeffersonrolino.entities.Starfish;
-import com.github.jeffersonrolino.entities.Turtle;
-import com.github.jeffersonrolino.entities.Whirlpool;
+import com.github.jeffersonrolino.entities.*;
 
 public class StarfishCollector extends GameBeta {
     private Turtle turtle;
     private Starfish starfish;
+    private Rock rock;
 
     @Override
     public void initialize() {
@@ -19,10 +17,14 @@ public class StarfishCollector extends GameBeta {
         starfish = new Starfish(380, 380, mainStage);
 
         turtle = new Turtle(20, 20, mainStage);
+
+        rock = new Rock(200, 200, mainStage);
     }
 
     @Override
     public void update(float dt) {
+        turtle.preventOverlap(rock);
+
         if(turtle.overlaps(starfish) && !starfish.isCollected()){
             starfish.collect();
             Whirlpool whirlpool = new Whirlpool(0, 0, mainStage);
@@ -35,6 +37,8 @@ public class StarfishCollector extends GameBeta {
             youWinMessage.setOpacity(0);
             youWinMessage.addAction(Actions.delay(1));
             youWinMessage.addAction(Actions.after(Actions.fadeIn(1)));
+
+
         }
     }
 }
