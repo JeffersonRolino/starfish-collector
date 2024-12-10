@@ -1,40 +1,55 @@
-package com.github.jeffersonrolino;
+package com.github.jeffersonrolino.screens;
 
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.github.jeffersonrolino.entities.*;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class StarfishCollector extends GameBeta {
+public class LevelScreen extends BaseScreen {
     private Turtle turtle;
     private boolean win;
-    ArrayList<Starfish> starfishes = new ArrayList<>();
-    ArrayList<Rock> rocks = new ArrayList<>();
     int amountOfStarfishesCollected = 0;
+
+
+    ArrayList<Starfish> starfishes;
+    ArrayList<Rock> rocks;
 
 
     @Override
     public void initialize() {
+        starfishes = new ArrayList<Starfish>();
+        rocks = new ArrayList<Rock>();
+
+        Random random = new Random();
+
         BaseActor ocean = new BaseActor(0, 0, mainStage);
         ocean.loadTexture("water-border.jpg");
         ocean.setSize(1200, 900);
 
         BaseActor.setWorldBounds(ocean);
 
-        starfishes.add(new Starfish(400, 400, mainStage));
-        starfishes.add(new Starfish(500, 100, mainStage));
-        starfishes.add(new Starfish(100, 450, mainStage));
-        starfishes.add(new Starfish(200, 250, mainStage));
+        Starfish starfish1 = new Starfish(400, 400, mainStage);
+        starfishes.add(starfish1);
+        Starfish starfish2 = new Starfish(500, 100, mainStage);
+        starfishes.add(starfish2);
+        Starfish starfish3 = new Starfish(100, 450, mainStage);
+        starfishes.add(starfish3);
+        Starfish starfish4 = new Starfish(200, 250, mainStage);
+        starfishes.add(starfish4);
 
-        rocks.add(new Rock(200, 150, mainStage));
-        rocks.add(new Rock(100, 300, mainStage));
-        rocks.add(new Rock(300, 350, mainStage));
-        rocks.add(new Rock(450, 200, mainStage));
+        Rock rock1 = new Rock(200, 150, mainStage);
+        rocks.add(rock1);
+        Rock rock2 = new Rock(100, 300, mainStage);
+        rocks.add(rock2);
+        Rock rock3 = new Rock(300, 350, mainStage);
+        rocks.add(rock3);
+        Rock rock4 = new Rock(450, 200, mainStage);
+        rocks.add(rock4);
 
         turtle = new Turtle(20, 20, mainStage);
 
         win = false;
-
     }
 
     @Override
