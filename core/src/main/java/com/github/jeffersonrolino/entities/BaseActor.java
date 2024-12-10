@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
+import java.util.ArrayList;
 
 public class BaseActor extends Actor {
     private Animation<TextureRegion> animation;
@@ -303,5 +304,31 @@ public class BaseActor extends Actor {
 
         this.moveBy(mtv.normal.x * mtv.depth, mtv.normal.y * mtv.depth);
         return mtv.normal;
+    }
+
+    //This method is throwing a exception, but I can't find out why, so I change
+    //the approach in the StarfishCollector class, creating a list for each object type
+    public static ArrayList<BaseActor> getList(Stage stage, String className){
+        ArrayList<BaseActor> list = new ArrayList<BaseActor>();
+
+        Class theClass = null;
+
+        try {
+            theClass = Class.forName(className);
+        } catch (Exception exception){
+            exception.printStackTrace();
+        }
+
+        for(Actor a : stage.getActors()){
+            if(theClass.isInstance(a)){
+                list.add((BaseActor)a);
+            }
+        }
+
+        return list;
+    }
+
+    public static int count(Stage stage, String className){
+        return getList(stage, className).size();
     }
 }
