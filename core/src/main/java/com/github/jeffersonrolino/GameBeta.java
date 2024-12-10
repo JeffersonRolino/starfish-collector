@@ -7,10 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public abstract class GameBeta extends ApplicationAdapter {
     protected Stage mainStage;
+    protected Stage uiStage;
 
     public void create()
     {
         mainStage = new Stage();
+        uiStage = new Stage();
         initialize();
     }
 
@@ -24,6 +26,7 @@ public abstract class GameBeta extends ApplicationAdapter {
 
         // act method
         mainStage.act(dt);
+        uiStage.act(dt);
 
         // defined by user
         update(dt);
@@ -34,5 +37,6 @@ public abstract class GameBeta extends ApplicationAdapter {
 
         // draw the graphics
         mainStage.draw();
+        uiStage.draw();
     }
 }

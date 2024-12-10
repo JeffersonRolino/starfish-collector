@@ -16,6 +16,9 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Intersector.MinimumTranslationVector;
 import java.util.ArrayList;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class BaseActor extends Actor {
     private Animation<TextureRegion> animation;
@@ -27,6 +30,7 @@ public class BaseActor extends Actor {
     private float maxSpeed;
     private float deceleration;
     private Polygon boundaryPolygon;
+    private static Rectangle worldBounds;
 
 
     public BaseActor(float x, float y, Stage stage) {
@@ -330,5 +334,44 @@ public class BaseActor extends Actor {
 
     public static int count(Stage stage, String className){
         return getList(stage, className).size();
+    }
+
+    public static void setWorldBounds(float width, float height){
+        worldBounds = new Rectangle(0, 0, width, height);
+    }
+
+    public static void setWorldBounds(BaseActor baseActor){
+        setWorldBounds(baseActor.getWidth(), baseActor.getHeight());
+    }
+
+    public void boundToWorld(){
+        //check left edge
+        if(getX() < 0)
+            setX(0);
+
+        //check right edge
+        if(getX() + getWidth() > worldBounds.width)
+            setX(worldBounds.width - getWidth());
+
+        //check bottom edge
+        if(getY() < 0)
+            setY(0);
+
+        // check top edge
+        if(getY() + getHeight() > worldBounds.height)
+            setY(worldBounds.height - getHeight());
+    }
+
+    public void alignCamera(){
+        Camera camera = this.getStage().getCamera();
+        Viewport viewport = this.getStage().getViewport();
+
+        // center camera on actor
+        camera.position.set(this.getX() + this.getOriginX(), this.getY() + this.getOriginY(), 0);
+
+        // bound camera to layout
+        camera.position.x = MathUtils.clamp(camera.position.x, camera.viewportWidth / 2, worldBounds.width - camera.viewportWidth / 2);
+        camera.position.y = MathUtils.clamp(camera.position.y, camera.viewportHeight / 2, worldBounds.height - camera.viewportHeight / 2);
+        camera.update();
     }
 }
